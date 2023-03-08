@@ -1,0 +1,17 @@
+* Qué condiciones de carrera se podrían presentar?
+
+Rta:
+
+* Pueden presentarse en el momento en que se realice una peticion POST y una GET al mismo tiempo ya que podria ejecutarse un GET y el POST no haya terminado de agregar un nuevo elemento.
+* Tambien se puede presnetar cuando se realice un PUT y GET ya que podria darse el caso que se haga el GET primero y los cambios realizados por el PUT no se vean.
+
+
+* Cuales son las respectivas regiones críticas?
+
+Rta: 
+Los metodos desarrollados de POST, PUT, GET ya que estos acceden a la clase de blueprintServices y esta maneja las solicitudes realizadas.
+
+* Ajuste el código para suprimir las condiciones de carrera. Tengan en cuenta que simplemente sincronizar el acceso a las operaciones de persistencia/consulta DEGRADARÁ SIGNIFICATIVAMENTE el desempeño de API, por lo cual se deben buscar estrategias alternativas.
+
+Para solucionar se cambio el hashSet de la clase InMemoryBlueprintPersistence por uno de 
+caracter atomico como lo es un ConcurrentHashMap.
