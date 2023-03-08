@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
@@ -34,28 +36,28 @@ import java.util.stream.Collectors;
  *
  * @author hcadavid
  */
-@Component
-@Qualifier("inMemoryPersistence")
-public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
+@Service
+public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
-    private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
+    private final ConcurrentHashMap<Tuple<String,String>,Blueprint> blueprints=new ConcurrentHashMap<>();
 
     public InMemoryBlueprintPersistence() {
         //load stub data
-        Point[] pts1 = new Point[]{new Point(140, 140), new Point(115, 115)};
-        Point[] pts2 = new Point[]{new Point(45, 30), new Point(22, 23)};
-        Point[] pts3 = new Point[]{new Point(14, 14), new Point(15, 15)};
-
-
-        Blueprint bp1 = new Blueprint("Daniela", "Draw",pts1);
-        Blueprint bp2 = new Blueprint("Garcia", "Draw1", pts2);
-        Blueprint bp3 = new Blueprint("Romero", "Draw2", pts3);
-
+        Point[] pts0=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Blueprint bp0=new Blueprint("Juan", "Prueba1",pts0);
+        blueprints.put(new Tuple<>(bp0.getAuthor(),bp0.getName()), bp0);
+        Point[] pts1=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Blueprint bp1=new Blueprint("Daniela", "Prueba2",pts1);
         blueprints.put(new Tuple<>(bp1.getAuthor(),bp1.getName()), bp1);
+        Point[] pts2=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Blueprint bp2=new Blueprint("Edwar", "Prueba3",pts2);
         blueprints.put(new Tuple<>(bp2.getAuthor(),bp2.getName()), bp2);
+        Point[] pts3=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Blueprint bp3=new Blueprint("Lab05", "Prueba4",pts3);
         blueprints.put(new Tuple<>(bp3.getAuthor(),bp3.getName()), bp3);
-    }
-
+        
+    }    
+    
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
@@ -63,7 +65,7 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
         }
         else{
             blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        }
+        }        
     }
 
     @Override
@@ -72,12 +74,26 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence {
     }
 
     @Override
-    public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException {
-        return blueprints.values().stream().collect(Collectors.toSet());
+    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
+        Set<Blueprint> bpba = new HashSet<>();
+        Set<Tuple<String, String>> keys = blueprints.keySet();
+        for(Tuple<String, String> i : keys){
+            if(i.getElem1().equals(author)){
+                bpba.add(blueprints.get(i));
+            }
+        }
+        return bpba;
     }
 
     @Override
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
-        return blueprints.values().stream().filter(x -> x.getAuthor().equals(author)).collect(Collectors.toSet());
+    public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException {
+        Set<Blueprint> bpba = new HashSet<>();
+        Set<Tuple<String, String>> keys = blueprints.keySet();
+        for(Tuple<String, String> i : keys){
+                bpba.add(blueprints.get(i));
+        }
+        return bpba;
     }
+
+
 }

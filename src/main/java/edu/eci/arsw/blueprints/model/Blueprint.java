@@ -19,12 +19,9 @@ public class Blueprint {
         this.name=name;
         points=Arrays.asList(pnts);
     }
-
-    public void setPoints(List<Point> points) {
-        this.points = points;
-    }
-
+         
     public Blueprint(String author, String name){
+        this.author=author;
         this.name=name;
         points=new ArrayList<>();
     }
@@ -36,12 +33,22 @@ public class Blueprint {
         return name;
     }
 
-    public String getAuthor() {return author;}
+    public String getAuthor() {
+        return author;
+    }
     
     public List<Point> getPoints() {
         return points;
     }
-    
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void addPoint(Point p){
         this.points.add(p);
     }
@@ -86,7 +93,10 @@ public class Blueprint {
         
         return true;
     }
-    
+
+    public void setPoints(List<Point> points){
+        this.points = points;
+    }
     
     
 }
