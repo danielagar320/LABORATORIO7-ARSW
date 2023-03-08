@@ -15,24 +15,37 @@ import java.util.Set;
  */
 
 public interface BlueprintsPersistence {
-    
+
     /**
-     * 
+     *
      * @param bp the new blueprint
      * @throws BlueprintPersistenceException if a blueprint with the same name already exists,
      *    or any other low-level persistence error occurs.
      */
-    public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException;
-    
+    void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException;
+
     /**
-     * 
+     *
      * @param author blueprint's author
      * @param bprintname blueprint's author
      * @return the blueprint of the given name and author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
-    public Blueprint getBlueprint(String author,String bprintname) throws BlueprintNotFoundException;
+    Blueprint getBlueprint(String author,String bprintname) throws BlueprintNotFoundException;
 
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException;
-    
+
+    /**
+     *
+     * @return the blueprint of the given name and author
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException;
+
+    /**
+     *
+     * @param author blueprint's author
+     * @return the blueprint of the given name and author
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException;
 }
