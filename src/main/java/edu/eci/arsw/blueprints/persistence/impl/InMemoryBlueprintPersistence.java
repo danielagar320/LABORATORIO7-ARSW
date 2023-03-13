@@ -46,18 +46,18 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         Point[] pts0=new Point[]{new Point(140, 140),new Point(115, 115)};
         Blueprint bp0=new Blueprint("Juan", "Prueba1",pts0);
         blueprints.put(new Tuple<>(bp0.getAuthor(),bp0.getName()), bp0);
-        Point[] pts1=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Point[] pts1=new Point[]{new Point(24, 86),new Point(12, 118)};
         Blueprint bp1=new Blueprint("Daniela", "Prueba2",pts1);
         blueprints.put(new Tuple<>(bp1.getAuthor(),bp1.getName()), bp1);
-        Point[] pts2=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Point[] pts2=new Point[]{new Point(32, 17),new Point(54, 86)};
         Blueprint bp2=new Blueprint("Edwar", "Prueba3",pts2);
         blueprints.put(new Tuple<>(bp2.getAuthor(),bp2.getName()), bp2);
-        Point[] pts3=new Point[]{new Point(140, 140),new Point(115, 115)};
+        Point[] pts3=new Point[]{new Point(342, 1),new Point(2, 343)};
         Blueprint bp3=new Blueprint("Lab05", "Prueba4",pts3);
         blueprints.put(new Tuple<>(bp3.getAuthor(),bp3.getName()), bp3);
-        
-    }    
-    
+
+    }
+
     @Override
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         if (blueprints.containsKey(new Tuple<>(bp.getAuthor(),bp.getName()))){
