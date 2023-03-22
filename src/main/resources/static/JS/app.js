@@ -92,6 +92,7 @@ var app = (function (){
 
          function createBp(){
             var bpName = prompt("Por favor digite el nombre del plano", "")
+            author = $("#author").val();
             apiclient.createBp(author, bpName).then(()=>{
                 getNameAuthorBlueprints();
             })
