@@ -5,7 +5,6 @@
  */
 package edu.eci.arsw.blueprints.controllers;
 
-
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,18 +59,19 @@ public class BlueprintAPIController {
 
     @RequestMapping(path = "/{author}/{bpname}" , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getBlueprintByAuthorName(@PathVariable String author, @PathVariable String bpname) throws BlueprintNotFoundException {
-            Blueprint blueprint = bps.getBlueprint(author, bpname);
-            Gson gson = new Gson();
-            if(blueprint == null){
-                return new ResponseEntity<>("Dicho nombre o autor no existe",HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(gson.toJson(blueprint), HttpStatus.ACCEPTED);
+        Blueprint blueprint = bps.getBlueprint(author, bpname);
+        Gson gson = new Gson();
+        if(blueprint == null){
+            return new ResponseEntity<>("Dicho nombre o autor no existe",HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(gson.toJson(blueprint), HttpStatus.ACCEPTED);
 
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> postBlueprint(@RequestBody Blueprint blueprint){
         try {
+//            System.out.println(blueprint.getName());
             bps.addNewBlueprint(blueprint);
             //registrar dato
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -84,12 +84,19 @@ public class BlueprintAPIController {
 
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> putBlueprint(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint blueprint) throws BlueprintNotFoundException {
-        Blueprint blueprint1 = bps.getBlueprint(author, bpname);
-        blueprint1.setAuthor(blueprint.getAuthor());
-        blueprint1.setName(blueprint.getName());
-        blueprint1.setPoints(blueprint.getPoints());
+//        Blueprint blueprint1 = bps.getBlueprint(author, bpname);
+//        blueprint1.setAuthor(blueprint.getAuthor());
+//        blueprint1.setName(blueprint.getName());
+//        System.out.println(blueprint.getPoints().get(0).getX());
+//        blueprint1.addPoint(blueprint.getPoints().get(0));
+        bps.updatePoints(author, bpname, blueprint.getPoints());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.DELETE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteBlueprint(@PathVariable String author, @PathVariable String bpname) throws BlueprintNotFoundException {
+        bps.deleteBlueprint(author, bpname);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
-

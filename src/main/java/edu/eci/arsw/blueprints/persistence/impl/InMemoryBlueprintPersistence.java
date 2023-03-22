@@ -95,5 +95,16 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         return bpba;
     }
 
+    @Override
+    public void updatePoints(String author, String bpname, List<Point> points) {
+        Blueprint b = blueprints.get(new Tuple<>(author, bpname));
+        b.addPoint(points.get(0));
+    }
+
+    @Override
+    public void deleteBlueprint(String author, String bpname) {
+        blueprints.remove(new Tuple<>(author, bpname));
+    }
+
 
 }
